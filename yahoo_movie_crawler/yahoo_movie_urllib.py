@@ -29,8 +29,8 @@ def repeat_yahoo_movie(url):
     movies=[]
     movie=yahoo_movie(url)
     movies += movie
-    resp = requests.get(url)
-    soup = BeautifulSoup(resp.text, 'html5lib')
+    resp = urllib.request.urlopen(url).read()
+    soup = BeautifulSoup(resp, 'html5lib')
     
     if soup.find('li', 'nexttxt').a['href']:
         nextpage = soup.find('li', 'nexttxt').a['href']
@@ -40,8 +40,8 @@ def repeat_yahoo_movie(url):
     while nextpage!=[]:
         new_movie=yahoo_movie(nextpage)
         movies += new_movie
-        resp = requests.get(nextpage)
-        soup = BeautifulSoup(resp.text, 'html5lib')
+        resp = urllib.request.urlopen(nextpage).read()
+        soup = BeautifulSoup(resp, 'html5lib')
         if soup.find('li', 'nexttxt').a:
             nextpage = soup.find('li', 'nexttxt').a['href']
         else:
