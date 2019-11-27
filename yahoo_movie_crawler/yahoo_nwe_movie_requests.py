@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
 
+#爬一頁資料
 url='https://movies.yahoo.com.tw/movie_thisweek.html'
 
 def yahoo_newmovie(url):
@@ -44,4 +45,40 @@ for a in data:
         
 
 print('本周新片:',test)
+test.to_csv('newmovie.csv',encoding='utf_8_sig')
+
+#爬兩頁的資料
+##用上映中的電影網址做範例
+url='https://movies.yahoo.com.tw/movie_intheaters.html'     
+
+movies=[]
+movie=yahoo_newmovie(url)
+movies += movie
+resp = requests.get(url)
+soup = BeautifulSoup(resp.text, 'html5lib')
+
+if soup.find('li', 'nexttxt').a['href']:
+    nextpage = soup.find('li', 'nexttxt').a['href']
+    new_movie=yahoo_newmovie(nextpage)
+    movies += new_movie
+        
+        
+
+
+data=movies
+name=['ch_name','eng_name','release_date','expectation','url','movie_id','poster_url','intro','trailer_url']
+test=pd.DataFrame(columns=name,data=data)
+test.index = np.arange(1,len(test)+1)
+test.index.names = ['movie_NO.']
+
+print('本周新片', len(data), '部電影')
+
+print('期待值> 90% :' )
+n='90%'
+for a in data:
+    if a['expectation'] > n :
+        print(a['ch_name'],a['expectation'])
+        
+print('本周新片:',test)
+
 test.to_csv('newmovie.csv',encoding='utf_8_sig')
