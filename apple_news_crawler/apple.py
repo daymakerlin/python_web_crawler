@@ -20,7 +20,7 @@ for a in apple:
 print(news)
  
 
-test=pd.DataFrame(data=news)
-test.set_index('number', inplace=True)
+test=pd.DataFrame(data = news)
+test.set_index('number', inplace = True)
 print(test)
-test.to_csv('news.csv',encoding='utf_8_sig')
+test.to_csv('news.csv',encoding = 'utf_8_sig')
