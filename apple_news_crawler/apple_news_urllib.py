@@ -15,6 +15,7 @@ for a in apple:
     new=dict()
     new['number']=a.find('div', 'aht_title_num').text
     new['title']=a.find('div', 'aht_title').text
+    new['href']=a.find('div', 'aht_title').a['href']
     news.append(new)
 
 print(news)
