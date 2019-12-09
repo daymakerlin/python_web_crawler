@@ -14,6 +14,7 @@ for a in liberty:
     new=dict()
     new['title'] =a.find('span','title').text.strip()
     new['time'] =a.find('span','time').text.strip()
+    new['href'] =a.find('a','tit')['href']
     news.append(new)
 
 print(news)
